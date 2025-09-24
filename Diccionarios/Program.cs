@@ -20,18 +20,18 @@ namespace Diccionarios
     {
         static void Main(string[] args)
         {
-            Console.Write("Nombre del creador: ");
-            string nombreCreador = Console.ReadLine();
-            Console.Write("Matrícula del creador: ");
-            int matriculaCreador = Convert.ToInt32(Console.ReadLine());
+            // Cambia aquí por tu nombre y matrícula
+            string nombreAlumno = "Joshua";
+            int matriculaCreador = 113340;
 
             Acciones acciones = new Acciones
             {
-                Nombre = nombreCreador,
+                Nombre = nombreAlumno,
                 Matricula = matriculaCreador
             };
 
-            Console.WriteLine($"\nCreador: {acciones.Nombre} | Matrícula: {acciones.Matricula}");
+            // Mostrar nombre y matrícula al iniciar
+            Console.WriteLine($"\nAlumno: {acciones.Nombre} | Matrícula: {acciones.Matricula}");
 
             MenuOpciones opcion;
             do
