@@ -6,41 +6,57 @@ using System.Threading.Tasks;
 
 namespace Diccionarios
 {
+    enum MenuOpciones
+    {
+        Agregar = 1,
+        Mostrar,
+        Actualizar,
+        Eliminar,
+        Contar,
+        Salir
+    }
+
     internal class Program
     {
         static void Main(string[] args)
         {
-            Acciones acciones = new Acciones();
-            int opcion;
+            Console.Write("Nombre del creador: ");
+            string nombreCreador = Console.ReadLine();
+            Console.Write("Matrícula del creador: ");
+            int matriculaCreador = Convert.ToInt32(Console.ReadLine());
+
+            Acciones acciones = new Acciones
+            {
+                Nombre = nombreCreador,
+                Matricula = matriculaCreador
+            };
+
+            Console.WriteLine($"\nCreador: {acciones.Nombre} | Matrícula: {acciones.Matricula}");
+
+            MenuOpciones opcion;
             do
             {
-                Console.WriteLine("\n--- Menú de Estudiantes ---");
+                Console.WriteLine("\n--- Menú de Opciones ---");
                 Console.WriteLine("1. Agregar estudiante");
-                Console.WriteLine("2. Remover por matrícula");
-                Console.WriteLine("3. Actualizar por matrícula");
-                Console.WriteLine("4. Mostrar todos");
-                Console.WriteLine("5. Buscar por matrícula");
-                Console.WriteLine("6. Contar estudiantes");
-                Console.WriteLine("0. Salir");
+                Console.WriteLine("2. Mostrar estudiantes");
+                Console.WriteLine("3. Actualizar estudiante");
+                Console.WriteLine("4. Eliminar estudiante");
+                Console.WriteLine("5. Contar estudiantes");
+                Console.WriteLine("6. Salir");
                 Console.Write("Selecciona una opción: ");
-                int.TryParse(Console.ReadLine(), out opcion);
+
+                int.TryParse(Console.ReadLine(), out int seleccion);
+                opcion = (MenuOpciones)seleccion;
 
                 switch (opcion)
                 {
-                    case 1:
+                    case MenuOpciones.Agregar:
                         acciones.AddStudents();
                         break;
-                    case 2:
-                        Console.Write("Matrícula a remover: ");
-                        if (int.TryParse(Console.ReadLine(), out int matriculaRemover))
-                        {
-                            if (acciones.RemoverPorMatricula(matriculaRemover))
-                                Console.WriteLine("Estudiante removido.");
-                            else
-                                Console.WriteLine("Matrícula no encontrada.");
-                        }
+                    case MenuOpciones.Mostrar:
+                        acciones.Mostrar();
                         break;
-                    case 3:
+                    case MenuOpciones.Actualizar:
                         Console.Write("Matrícula a actualizar: ");
                         if (int.TryParse(Console.ReadLine(), out int matriculaActualizar))
                         {
@@ -52,31 +68,27 @@ namespace Diccionarios
                                 Console.WriteLine("Matrícula no encontrada.");
                         }
                         break;
-                    case 4:
-                        acciones.Mostrar();
-                        break;
-                    case 5:
-                        Console.Write("Matrícula a buscar: ");
-                        if (int.TryParse(Console.ReadLine(), out int matriculaBuscar))
+                    case MenuOpciones.Eliminar:
+                        Console.Write("Matrícula a eliminar: ");
+                        if (int.TryParse(Console.ReadLine(), out int matriculaEliminar))
                         {
-                            string nombre = acciones.BuscarPorMatricula(matriculaBuscar);
-                            if (nombre != null)
-                                Console.WriteLine($"Nombre: {nombre}");
+                            if (acciones.RemoverPorMatricula(matriculaEliminar))
+                                Console.WriteLine("Estudiante eliminado.");
                             else
                                 Console.WriteLine("Matrícula no encontrada.");
                         }
                         break;
-                    case 6:
+                    case MenuOpciones.Contar:
                         Console.WriteLine($"Total de estudiantes: {acciones.Contar()}");
                         break;
-                    case 0:
+                    case MenuOpciones.Salir:
                         Console.WriteLine("Saliendo...");
                         break;
                     default:
                         Console.WriteLine("Opción no válida.");
                         break;
                 }
-            } while (opcion != 0);
+            } while (opcion != MenuOpciones.Salir);
         }
     }
 }
